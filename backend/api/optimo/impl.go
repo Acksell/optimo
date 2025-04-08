@@ -50,7 +50,7 @@ func (s *Service) PostPurchaseOrders(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	var newOrder api.PurchaseOrder
+	var newOrder api.NewPurchaseOrder
 	if err := json.NewDecoder(r.Body).Decode(&newOrder); err != nil {
 		log.Printf("decode purchase order: %v", err)
 		http.Error(w, fmt.Sprintf("Invalid request payload: %v", err), http.StatusBadRequest)

@@ -29,12 +29,12 @@ func toPurchaseOrder(po optimosql.ListPurchaseOrdersRow) api.PurchaseOrder {
 	return poResp
 }
 
-func fromPurchaseOrder(po api.PurchaseOrder) optimosql.CreatePurchaseOrderParams {
+func fromPurchaseOrder(po api.NewPurchaseOrder) optimosql.CreatePurchaseOrderParams {
 	return optimosql.CreatePurchaseOrderParams{
-		Quantity:              int32(*po.Quantity),
-		SupplierID:            *po.SupplierId,
-		OrderDate:             fromDate(po.OrderDate),
-		ProductID:             int32(*po.ProductId),
+		Quantity:              int32(po.Quantity),
+		SupplierID:            po.SupplierId,
+		OrderDate:             fromDate(&po.OrderDate),
+		ProductID:             int32(po.ProductId),
 		EstimatedDeliveryDate: fromDate(po.EstimatedDeliveryDate),
 	}
 }
