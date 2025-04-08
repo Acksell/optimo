@@ -64,6 +64,7 @@ SELECT
     po.order_date,
     po.estimated_delivery_date,
     po.quantity,
+    p.id AS product_id,
     p.name AS product_name,
     p.brand AS product_brand,
     po.created_at
@@ -78,6 +79,7 @@ type ListPurchaseOrdersRow struct {
 	OrderDate             pgtype.Date
 	EstimatedDeliveryDate pgtype.Date
 	Quantity              int32
+	ProductID             int32
 	ProductName           string
 	ProductBrand          pgtype.Text
 	CreatedAt             pgtype.Timestamp
@@ -99,6 +101,7 @@ func (q *Queries) ListPurchaseOrders(ctx context.Context) ([]ListPurchaseOrdersR
 			&i.OrderDate,
 			&i.EstimatedDeliveryDate,
 			&i.Quantity,
+			&i.ProductID,
 			&i.ProductName,
 			&i.ProductBrand,
 			&i.CreatedAt,

@@ -9,9 +9,11 @@ import (
 
 func toPurchaseOrder(po optimosql.ListPurchaseOrdersRow) api.PurchaseOrder {
 	poResp := api.PurchaseOrder{
-		Id:         intPointer(int(po.ID)),
-		Quantity:   intPointer(int(po.Quantity)),
-		SupplierId: stringPointer(po.SupplierID),
+		Id:          intPointer(int(po.ID)),
+		Quantity:    intPointer(int(po.Quantity)),
+		ProductId:   intPointer(int(po.ProductID)),
+		ProductName: stringPointer(po.ProductName),
+		SupplierId:  stringPointer(po.SupplierID),
 	}
 
 	if po.CreatedAt.Valid {

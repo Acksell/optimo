@@ -6,5 +6,5 @@ sql:
     gen:
       go:
         package: "optimosql"
-        out: "../../backend/optimosql"
+        out: ../backend/optimosql
         sql_package: "pgx/v5"

@@ -48,12 +48,12 @@ export class DefaultService {
     /**
      * Create a new purchase order
      * @param requestBody
-     * @returns PurchaseOrder Purchase order created
+     * @returns any Purchase order created
      * @throws ApiError
      */
     public static postPurchaseOrders(
         requestBody: NewPurchaseOrder,
-    ): CancelablePromise<PurchaseOrder> {
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/purchase-orders',

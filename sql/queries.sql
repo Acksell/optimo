@@ -31,6 +31,7 @@ SELECT
     po.order_date,
     po.estimated_delivery_date,
     po.quantity,
+    p.id AS product_id,
     p.name AS product_name,
     p.brand AS product_brand,
     po.created_at

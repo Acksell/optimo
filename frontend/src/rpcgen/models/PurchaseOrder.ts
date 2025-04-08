@@ -8,6 +8,7 @@ export type PurchaseOrder = {
     order_date?: string;
     estimated_delivery_date?: string;
     product_id?: number;
+    product_name?: string;
     quantity?: number;
     created_at?: string;
 };

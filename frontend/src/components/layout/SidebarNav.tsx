@@ -30,7 +30,7 @@ const SidebarNav = () => {
   return (
     <Sidebar>
       <SidebarHeader className="px-3 py-5">
-        <span className="font-bold text-xl text-sidebar-primary">Stock Flow</span>
+        <span className="font-bold text-xl text-sidebar-primary">Optimo</span>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -48,7 +48,7 @@ const SidebarNav = () => {
       </SidebarContent>
       <SidebarFooter className="px-3 py-4">
         <div className="text-xs text-sidebar-foreground/60">
-          &copy; {new Date().getFullYear()} Stock Flow Dashboard
+          &copy; {new Date().getFullYear()} Optimo Dashboard
         </div>
       </SidebarFooter>
     </Sidebar>

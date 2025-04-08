@@ -13,7 +13,7 @@ const Navbar = () => {
           </Button>
         </SidebarTrigger>
         <div className="ml-auto flex items-center space-x-4">
-          <div className="text-sm font-medium">Stock Flow Dashboard</div>
+          <div className="text-sm font-medium">Optimo Dashboard</div>
         </div>
       </div>
     </header>

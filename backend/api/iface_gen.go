@@ -29,6 +29,7 @@ type PurchaseOrder struct {
 	Id                    *int                `json:"id,omitempty"`
 	OrderDate             *openapi_types.Date `json:"order_date,omitempty"`
 	ProductId             *int                `json:"product_id,omitempty"`
+	ProductName           *string             `json:"product_name,omitempty"`
 	Quantity              *int                `json:"quantity,omitempty"`
 	SupplierId            *string             `json:"supplier_id,omitempty"`
 }
@@ -44,10 +45,10 @@ type SalesData struct {
 // GetSalesParams defines parameters for GetSales.
 type GetSalesParams struct {
 	// StartDate Filter sales starting from this date (inclusive)
-	StartDate *string `form:"start_date,omitempty" json:"start_date,omitempty"`
+	StartDate *openapi_types.Date `form:"start_date,omitempty" json:"start_date,omitempty"`
 
 	// EndDate Filter sales up to this date (inclusive)
-	EndDate *string `form:"end_date,omitempty" json:"end_date,omitempty"`
+	EndDate *openapi_types.Date `form:"end_date,omitempty" json:"end_date,omitempty"`
 
 	// ProductIds Filter sales by one or more product IDs
 	ProductIds *[]int `form:"product_ids,omitempty" json:"product_ids,omitempty"`
