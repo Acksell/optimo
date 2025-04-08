@@ -13,8 +13,10 @@ server:
 uibuild:
 	docker compose -f ./docker-compose.yaml up -d frontend
 
+gen: sqlgen oaigen
+
 sqlgen:
-	go generate ./sql/gen
+	go generate ./sql
 
 oaigen:
 	npx openapi --input ./openapi/apispec.yaml --output ./frontend/src/rpcgen
