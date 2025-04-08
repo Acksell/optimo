@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: optimo_pg
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: optimoanalytics
+    volumes:
+      - ./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql  # Mount the initdb file
+      - postgres_data:/var/lib/postgresql/data  # Persist data
+
+    ports:
+      - "5432:5432"  # PostgreSQL default port
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d optimoanalytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - app_network
+
+  backend:
+    container_name: optimo_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_NAME: optimoanalytics
+      DB_PORT: 5432
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_network
+
+  # not for development
+  frontend:
+    container_name: optimo_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "5173:5173" # Map the container port to the host
+    environment:
+      - BACKEND_URL=http://backend:8080 # Environment variable for the backend URL
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Optimo API
+  version: 1.0.0
+  description: API for managing sales and purchase orders for clothing brands.
+
+servers:
+  - url: https://api.optimo.local/v1
+
+paths:
+  /sales:
+    get:
+      summary: Get sales data aggregated by month
+      description: Returns a list of sales aggregated by month. Optionally filter by product IDs.
+      parameters:
+        - in: query
+          name: product_ids
+          schema:
+            type: array
+            items:
+              type: integer
+          style: form
+          explode: true
+          description: Filter sales by one or more product IDs
+      responses:
+        '200':
+          description: Successful response with aggregated sales
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    month:
+                      type: string
+                      example: '2025-01'
+                    total_quantity:
+                      type: integer
+                      example: 45
+                    product_id:
+                      type: integer
+                      example: 1
+
+  /purchase-orders:
+    get:
+      summary: List all purchase orders
+      description: Returns all purchase orders with supplier, product, and delivery info.
+      responses:
+        '200':
+          description: A list of purchase orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseOrder'
+
+    post:
+      summary: Create a new purchase order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPurchaseOrder'
+      responses:
+        '201':
+          description: Purchase order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+
+  /purchase-orders/{id}:
+    delete:
+      summary: Delete a purchase order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Purchase order deleted
+
+components:
+  schemas:
+    PurchaseOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+        supplier_id:
+          type: string
+        order_date:
+          type: string
+          format: date
+        estimated_delivery_date:
+          type: string
+          format: date
+        product_id:
+          type: integer
+        quantity:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    NewPurchaseOrder:
+      type: object
+      required:
+        - supplier_id
+        - order_date
+        - product_id
+        - quantity
+      properties:
+        supplier_id:
+          type: string
+        order_date:
+          type: string
+          format: date
+        estimated_delivery_date:
+          type: string
+          format: date
+        product_id:
+          type: integer
+        quantity:
+          type: integer

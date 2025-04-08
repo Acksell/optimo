@@ -1,0 +1,6 @@
+# yaml-language-server: $schema=../../../../configuration-schema.json
+package: apigen
+output: ../backend/api/iface_gen.go
+generate:
+  models: true
+  chi-server: true

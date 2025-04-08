@@ -1,0 +1,38 @@
+# Stage 1: Build
+FROM node:20 AS frontendbuilder
+
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY ./package*.json .
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Serve
+FROM node:20
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the build output and necessary files
+COPY --from=frontendbuilder /app/dist ./dist
+COPY --from=frontendbuilder /app/package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Install a lightweight static file server
+RUN npm install -g serve
+
+# Expose the port the app will run on
+EXPOSE 5173
+
+# Command to serve the app
+CMD ["serve", "-s", "dist", "-l", "5173"]
