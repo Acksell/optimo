@@ -62,8 +62,8 @@ const PurchaseOrders = () => {
     try {
       const newPurchaseOrder = await apiService.postPurchaseOrders({
         supplier_id: formData.supplierId,
-        order_date: formData.orderDate,
-        estimated_delivery_date: formData.estimatedDeliveryDate,
+        order_date: new Date(formData.orderDate).toISOString().split("T")[0],
+        estimated_delivery_date: new Date(formData.estimatedDeliveryDate).toISOString().split("T")[0],
         product_id: parseInt(formData.productId),
         quantity: parseInt(formData.quantity),
       });

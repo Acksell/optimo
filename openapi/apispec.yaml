@@ -18,12 +18,14 @@ paths:
           schema:
             type: string
             format: date
+            pattern: '^\\d{4}-\\d{2}$'
           description: Filter sales starting from this date (inclusive)
         - in: query
           name: end_date
           schema:
             type: string
             format: date
+            pattern: '^\\d{4}-\\d{2}$'
           description: Filter sales up to this date (inclusive)         
         - in: query
           name: product_ids

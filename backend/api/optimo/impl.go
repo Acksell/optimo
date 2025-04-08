@@ -28,8 +28,8 @@ func (s *Service) GetPurchaseOrders(w http.ResponseWriter, r *http.Request) {
 	defer s.mu.Unlock()
 	pos, err := s.db.ListPurchaseOrders(r.Context())
 	if err != nil {
-		log.Printf("list purchase orders: %w", err)
-		http.Error(w, fmt.Sprintf("failed to fetch purchase orders: %w", err), http.StatusInternalServerError)
+		log.Printf("list purchase orders: %v", err)
+		http.Error(w, fmt.Sprintf("failed to fetch purchase orders: %v", err), http.StatusInternalServerError)
 		return
 	}
 
@@ -52,7 +52,8 @@ func (s *Service) PostPurchaseOrders(w http.ResponseWriter, r *http.Request) {
 
 	var newOrder api.PurchaseOrder
 	if err := json.NewDecoder(r.Body).Decode(&newOrder); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		log.Printf("decode purchase order: %v", err)
+		http.Error(w, fmt.Sprintf("Invalid request payload: %v", err), http.StatusBadRequest)
 		return
 	}
 

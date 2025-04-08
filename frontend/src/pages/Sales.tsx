@@ -57,7 +57,7 @@ const Sales = () => {
     const monthsMap = new Map<string, { name: string; [key: string]: any }>();
     
     // Initialize with all months
-    salesData.forEach((item) => {
+    salesData?.forEach((item) => {
       if (item.year_month && !monthsMap.has(item.year_month)) {
         monthsMap.set(item.year_month, {
           name: formatYearMonth(item.year_month),
@@ -67,7 +67,7 @@ const Sales = () => {
     });
     
     // Aggregate data by month and product
-    salesData.forEach((item) => {
+    salesData?.forEach((item) => {
       if (!item.year_month || item.product_id === undefined) return;
       
       const monthData = monthsMap.get(item.year_month);

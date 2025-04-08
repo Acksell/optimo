@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: optimoanalytics
     volumes:
-      - ./sql/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql  # Mount the initdb file
+      - ./sql/init:/docker-entrypoint-initdb.d  # Mount the initdb file
       - postgres_data:/var/lib/postgresql/data  # Persist data
 
     ports:

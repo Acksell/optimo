@@ -34,6 +34,7 @@ func fromPurchaseOrder(po api.PurchaseOrder) optimosql.CreatePurchaseOrderParams
 		Quantity:              int32(*po.Quantity),
 		SupplierID:            *po.SupplierId,
 		OrderDate:             fromDate(po.OrderDate),
+		ProductID:             int32(*po.ProductId),
 		EstimatedDeliveryDate: fromDate(po.EstimatedDeliveryDate),
 	}
 }
