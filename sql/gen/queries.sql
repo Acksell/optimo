@@ -1,24 +1,27 @@
 -- Sales per month (aggregated)
 -- name: MonthSales :many
 SELECT
-    DATE_TRUNC('month', sale_date) AS month,
+    DATE_TRUNC('month', sale_date) AS year_month,
     product_id,
-    SUM(quantity) AS total_quantity
+    SUM(quantity) AS inventory_turnover,
+    SUM(quantity * price) AS sales_turnover
 FROM sales
-GROUP BY month, product_id
-ORDER BY month, product_id;
+WHERE sale_date BETWEEN $1 AND $2
+GROUP BY year_month, product_id
+ORDER BY year_month, product_id;
 
 
 -- Sales per month (aggregated) filtered by product IDs
 -- name: MonthSalesFiltered :many
 SELECT
-    DATE_TRUNC('month', sale_date) AS month,
+    DATE_TRUNC('month', sale_date) AS year_month,
     product_id,
-    SUM(quantity) AS total_quantity
+    SUM(quantity) AS inventory_turnover,
+    SUM(quantity * price) AS sales_turnover
 FROM sales
-WHERE product_id = ANY (UNNEST($1::int[]))
-GROUP BY month, product_id
-ORDER BY month, product_id;
+WHERE sale_date BETWEEN $1 AND $2 AND product_id = ANY (UNNEST($3::int[]))
+GROUP BY year_month, product_id
+ORDER BY year_month, product_id;
 
 -- List all purchase orders with key details
 -- name: ListPurchaseOrders :many

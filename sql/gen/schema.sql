@@ -13,6 +13,7 @@ CREATE TABLE sales (
     product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     quantity INTEGER NOT NULL CHECK (quantity > 0),
     sale_date DATE NOT NULL,
+    sale_price NUMERIC(10, 2) NOT NULL CHECK (sale_price > 0),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

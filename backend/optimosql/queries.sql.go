@@ -115,23 +115,31 @@ func (q *Queries) ListPurchaseOrders(ctx context.Context) ([]ListPurchaseOrdersR
 
 const monthSales = `-- name: MonthSales :many
 SELECT
-    DATE_TRUNC('month', sale_date) AS month,
+    DATE_TRUNC('month', sale_date) AS year_month,
     product_id,
-    SUM(quantity) AS total_quantity
+    SUM(quantity) AS inventory_turnover,
+    SUM(quantity * price) AS sales_turnover
 FROM sales
-GROUP BY month, product_id
-ORDER BY month, product_id
+WHERE sale_date BETWEEN $1 AND $2
+GROUP BY year_month, product_id
+ORDER BY year_month, product_id
 `
 
+type MonthSalesParams struct {
+	SaleDate   pgtype.Date
+	SaleDate_2 pgtype.Date
+}
+
 type MonthSalesRow struct {
-	Month         pgtype.Interval
-	ProductID     int32
-	TotalQuantity int64
+	YearMonth         pgtype.Interval
+	ProductID         int32
+	InventoryTurnover int64
+	SalesTurnover     int64
 }
 
 // Sales per month (aggregated)
-func (q *Queries) MonthSales(ctx context.Context) ([]MonthSalesRow, error) {
-	rows, err := q.db.Query(ctx, monthSales)
+func (q *Queries) MonthSales(ctx context.Context, arg MonthSalesParams) ([]MonthSalesRow, error) {
+	rows, err := q.db.Query(ctx, monthSales, arg.SaleDate, arg.SaleDate_2)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +147,12 @@ func (q *Queries) MonthSales(ctx context.Context) ([]MonthSalesRow, error) {
 	var items []MonthSalesRow
 	for rows.Next() {
 		var i MonthSalesRow
-		if err := rows.Scan(&i.Month, &i.ProductID, &i.TotalQuantity); err != nil {
+		if err := rows.Scan(
+			&i.YearMonth,
+			&i.ProductID,
+			&i.InventoryTurnover,
+			&i.SalesTurnover,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -152,24 +165,32 @@ func (q *Queries) MonthSales(ctx context.Context) ([]MonthSalesRow, error) {
 
 const monthSalesFiltered = `-- name: MonthSalesFiltered :many
 SELECT
-    DATE_TRUNC('month', sale_date) AS month,
+    DATE_TRUNC('month', sale_date) AS year_month,
     product_id,
-    SUM(quantity) AS total_quantity
+    SUM(quantity) AS inventory_turnover,
+    SUM(quantity * price) AS sales_turnover
 FROM sales
-WHERE product_id = ANY (UNNEST($1::int[]))
-GROUP BY month, product_id
-ORDER BY month, product_id
+WHERE sale_date BETWEEN $1 AND $2 AND product_id = ANY (UNNEST($3::int[]))
+GROUP BY year_month, product_id
+ORDER BY year_month, product_id
 `
 
+type MonthSalesFilteredParams struct {
+	SaleDate   pgtype.Date
+	SaleDate_2 pgtype.Date
+	Column3    []int32
+}
+
 type MonthSalesFilteredRow struct {
-	Month         pgtype.Interval
-	ProductID     int32
-	TotalQuantity int64
+	YearMonth         pgtype.Interval
+	ProductID         int32
+	InventoryTurnover int64
+	SalesTurnover     int64
 }
 
 // Sales per month (aggregated) filtered by product IDs
-func (q *Queries) MonthSalesFiltered(ctx context.Context, dollar_1 []int32) ([]MonthSalesFilteredRow, error) {
-	rows, err := q.db.Query(ctx, monthSalesFiltered, dollar_1)
+func (q *Queries) MonthSalesFiltered(ctx context.Context, arg MonthSalesFilteredParams) ([]MonthSalesFilteredRow, error) {
+	rows, err := q.db.Query(ctx, monthSalesFiltered, arg.SaleDate, arg.SaleDate_2, arg.Column3)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +198,12 @@ func (q *Queries) MonthSalesFiltered(ctx context.Context, dollar_1 []int32) ([]M
 	var items []MonthSalesFilteredRow
 	for rows.Next() {
 		var i MonthSalesFilteredRow
-		if err := rows.Scan(&i.Month, &i.ProductID, &i.TotalQuantity); err != nil {
+		if err := rows.Scan(
+			&i.YearMonth,
+			&i.ProductID,
+			&i.InventoryTurnover,
+			&i.SalesTurnover,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

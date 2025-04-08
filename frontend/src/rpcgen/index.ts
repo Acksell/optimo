@@ -9,5 +9,6 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { NewPurchaseOrder } from './models/NewPurchaseOrder';
 export type { PurchaseOrder } from './models/PurchaseOrder';
+export type { SalesData } from './models/SalesData';
 
 export { DefaultService } from './services/DefaultService';

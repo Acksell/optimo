@@ -19,6 +19,7 @@ CREATE TABLE sales (
     product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     quantity INTEGER NOT NULL CHECK (quantity > 0),
     sale_date DATE NOT NULL,
+    sale_price NUMERIC(10, 2) NOT NULL CHECK (sale_price > 0),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -44,12 +45,20 @@ INSERT INTO products (name, sku, brand) VALUES
 
 -- Seed sales
 INSERT INTO sales (product_id, quantity, sale_date) VALUES
-(1, 10, '2024-12-01'),
-(1, 5, '2025-01-15'),
-(2, 7, '2025-01-20'),
-(3, 3, '2025-02-05'),
-(2, 9, '2025-03-02'),
-(1, 4, '2025-03-12');
+(1, 10, '2024-12-01', 299),
+(1, 5, '2025-01-15', 149),
+(2, 7, '2025-01-20', 499),
+(3, 3, '2025-02-05', 299),
+(1, 2, '2025-02-10', 199),
+(2, 4, '2025-02-15', 399),
+(3, 6, '2025-02-20', 599),
+(1, 8, '2025-03-01', 249),
+(1, 4, '2025-03-12', 199),
+(2, 5, '2025-03-15', 499),
+(3, 2, '2025-03-20', 299),
+(1, 3, '2025-03-25', 199),
+(2, 6, '2025-04-01', 399),
+(3, 1, '2025-04-05', 599);
 
 -- Seed purchase orders
 INSERT INTO purchase_orders (supplier_id, order_date, estimated_delivery_date, product_id, quantity) VALUES

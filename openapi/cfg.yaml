@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=../../../../configuration-schema.json
-package: apigen
+package: api
 output: ../backend/api/iface_gen.go
 generate:
   models: true

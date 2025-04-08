@@ -31,5 +31,6 @@ type Sale struct {
 	ProductID int32
 	Quantity  int32
 	SaleDate  pgtype.Date
+	SalePrice pgtype.Numeric
 	CreatedAt pgtype.Timestamp
 }

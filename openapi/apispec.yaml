@@ -5,7 +5,7 @@ info:
   description: API for managing sales and purchase orders for clothing brands.
 
 servers:
-  - url: https://api.optimo.local/v1
+  - url: http://localhost:8080
 
 paths:
   /sales:
@@ -13,6 +13,18 @@ paths:
       summary: Get sales data aggregated by month
       description: Returns a list of sales aggregated by month. Optionally filter by product IDs.
       parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+          description: Filter sales starting from this date (inclusive)
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+          description: Filter sales up to this date (inclusive)         
         - in: query
           name: product_ids
           schema:
@@ -30,17 +42,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    month:
-                      type: string
-                      example: '2025-01'
-                    total_quantity:
-                      type: integer
-                      example: 45
-                    product_id:
-                      type: integer
-                      example: 1
+                  $ref: '#/components/schemas/SalesData'
 
   /purchase-orders:
     get:
@@ -87,6 +89,19 @@ paths:
 
 components:
   schemas:
+    SalesData:
+      type: object
+      properties:
+        year_month:
+          type: string
+        sales_turnover:
+          type: number
+          format: float
+        inventory_turnover:
+          type: integer
+        product_id:
+          type: integer
+
     PurchaseOrder:
       type: object
       properties:
