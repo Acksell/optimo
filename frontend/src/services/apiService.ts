@@ -28,7 +28,7 @@ class ApiService {
    */
   public postPurchaseOrders(
     requestBody: NewPurchaseOrder,
-  ): CancelablePromise<PurchaseOrder> {
+  ): CancelablePromise<void> {
     return DefaultService.postPurchaseOrders(requestBody)
   }
 

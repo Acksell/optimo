@@ -65,7 +65,7 @@ const PurchaseOrderTable: React.FC<PurchaseOrderTableProps> = ({
             ) : (
               purchaseOrders.map((order) => (
                 <TableRow key={order.id}>
-                  <TableCell>{order.supplier_id}</TableCell>
+                  <TableCell>{order?.supplier_id}</TableCell>
                   <TableCell>{getProductName(order.product_id)}</TableCell>
                   <TableCell>{order.quantity}</TableCell>
                   <TableCell>{formatDate(order.order_date)}</TableCell>

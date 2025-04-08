@@ -68,11 +68,12 @@ const PurchaseOrders = () => {
         quantity: parseInt(formData.quantity),
       });
 
-      setPurchaseOrders([...purchaseOrders, newPurchaseOrder]);
+      // todo include order in response
+      // setPurchaseOrders([...purchaseOrders, newPurchaseOrder]); 
       setIsAddingOrder(false);
       toast({
         title: "Success",
-        description: "Purchase order added successfully",
+        description: "Purchase order added successfully. Please refresh the page.",
       });
     } catch (error) {
       console.error("Error adding purchase order:", error);
