@@ -44,7 +44,7 @@ INSERT INTO products (name, sku, brand) VALUES
 ('Oversized Hoodie', 'OL-HDY-003', 'Our Legacy');
 
 -- Seed sales
-INSERT INTO sales (product_id, quantity, sale_date) VALUES
+INSERT INTO sales (product_id, quantity, sale_date, sale_price) VALUES
 (1, 10, '2024-12-01', 299),
 (1, 5, '2025-01-15', 149),
 (2, 7, '2025-01-20', 499),
