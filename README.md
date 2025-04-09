@@ -16,4 +16,3 @@ Other scripts available:
 - - prerequisites: cd frontend/ and run `npm install`
 - `$ make server`, prerequisites: `docker`
 - `$ make stop`, stops all containers/services.
-- `$ make test`, go test.

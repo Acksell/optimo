@@ -1,4 +1,4 @@
-all: test demo
+all: demo
 
 demo:
 	docker compose -f ./docker-compose.yaml up -d
@@ -21,9 +21,6 @@ sqlgen:
 oaigen:
 	npx openapi --input ./openapi/apispec.yaml --output ./frontend/src/rpcgen
 	go generate ./openapi
-
-test:
-	go test -race ./...
 
 ui:
 	cd ./frontend && npm run dev
